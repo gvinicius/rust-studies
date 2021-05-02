@@ -1,0 +1,63 @@
+
+* # Summary
+*
+* ### `.gitignore` for library crates
+*
+* <!-- language: none -->
+*/
+
+# Generated files
+/target/
+
+# The library shouldn't decide about the exact versions of
+# its dependencies, but let the downstream crate decide.
+Cargo.lock
+
+/*
+ * ### `.gitignore` for executable crates
+ *
+ * <!-- language: none -->
+ */
+
+# Generated files
+/target/
+
+/*
+ * ---
+ *
+ * # Details
+ *
+ * You need one or two entries in your `.gitignore`, depending on what
+ * kind of crate you're building. The `target/` folder can be ignore
+ * completely regardless of crate type; it only contains generated files
+ * (e.g. compile artifacts).
+ *
+ * The `Cargo.lock` file should be included in the repository *if* you're
+ * writing an executable, and should be ignored if you're writing a
+ * library. You can read more about this [in the
+ * FAQ](http:doc.crates.io/faq.html#why-do-binaries-have-cargolock-in-
+ * version-control-but-not-libraries). To quote the most important part:
+ *
+ * > The purpose of a `Cargo.lock` is to describe the state of the world
+ * at the time of a successful build. [...]
+ * >
+ * > This property is most desirable from applications and projects which
+ * are at the very end of the dependency chain (binaries). As a result,
+ * it is recommended that all binaries check in their `Cargo.lock`.
+ * >
+ * > For libraries the situation is somewhat different. [...] If a
+ * library ends up being used transitively by several dependencies, it’s
+ * likely that just a single copy of the library is desired (based on
+ * semver compatibility). If all libraries were to check in their
+ * `Cargo.lock`, then multiple copies of the library would be used, and
+ * perhaps even a version conflict.
+ *
+ * ---
+ *
+ * Also, please note that `cargo new` and `cargo init` **automatically
+ * generates a `.gitignore` file** in the project, unless the parameter
+ * `--vcs none` is passed.
+ *
+ * [Lukas Kalbertodt] [so/q/43667176] [cc by-sa 3.0]
+ */
+
